@@ -1,88 +1,78 @@
 (() => {
-  "use strict";
-
   const verses = [
     {
-      text:"El Señor es mi pastor; nada me faltará.",
-      reference:"Salmo 23:1",
-      reflection:"No tenés que conocer todo el camino para dar el próximo paso. Confiá en Dios y avanzá."
+      text: 'Todo lo puedo en Cristo que me fortalece.',
+      reference: 'Filipenses 4:13',
+      reflection: 'No estás solo frente a lo que tenés que atravesar. Seguí adelante con fe.'
     },
     {
-      text:"Todo lo puedo en Cristo que me fortalece.",
-      reference:"Filipenses 4:13",
-      reflection:"La fortaleza no siempre significa que todo será fácil. A veces significa tener fuerzas para continuar."
+      text: 'El Señor es mi pastor; nada me faltará.',
+      reference: 'Salmos 23:1',
+      reflection: 'Descansá por un momento. Dios conoce tus necesidades y tu camino.'
     },
     {
-      text:"No temas, porque yo estoy contigo.",
-      reference:"Isaías 41:10",
-      reflection:"Si hoy estás atravesando un momento difícil, recordá que no tenés que enfrentarlo solo."
+      text: 'No temas, porque yo estoy contigo.',
+      reference: 'Isaías 41:10',
+      reflection: 'Aunque hoy tengas miedo o incertidumbre, podés dar el próximo paso acompañado por Dios.'
     },
     {
-      text:"Lámpara es a mis pies tu palabra, y lumbrera a mi camino.",
-      reference:"Salmo 119:105",
-      reflection:"Una decisión a la vez. Una palabra puede ayudarte a encontrar dirección cuando todo parece oscuro."
+      text: 'Encomienda al Señor tus obras, y tus pensamientos serán afirmados.',
+      reference: 'Proverbios 16:3',
+      reflection: 'Poné tus proyectos delante de Dios y avanzá con responsabilidad y esperanza.'
     },
     {
-      text:"Encomienda a Jehová tus obras, y tus pensamientos serán afirmados.",
-      reference:"Proverbios 16:3",
-      reflection:"Poné tus proyectos delante de Dios y trabajá con responsabilidad, paciencia y fe."
-    },
-    {
-      text:"Bienaventurados los pacificadores, porque ellos serán llamados hijos de Dios.",
-      reference:"Mateo 5:9",
-      reflection:"Hoy podés ser parte de la solución llevando paz donde otros llevan conflicto."
+      text: 'El Señor está cerca de los quebrantados de corazón.',
+      reference: 'Salmos 34:18',
+      reflection: 'Tu dolor no pasa desapercibido. Podés acercarte a Dios incluso desde tu momento más difícil.'
     }
   ];
 
-  let index = Number(localStorage.getItem("gv-verse-index") || 0);
+  const text = document.querySelector('#verse-text');
+  const reference = document.querySelector('#verse-reference');
+  const reflection = document.querySelector('#verse-reflection');
+  const status = document.querySelector('#verse-status');
+  const next = document.querySelector('#new-verse');
+  const share = document.querySelector('#share-verse');
+  const save = document.querySelector('#save-verse');
 
-  function render(){
-    const verse = verses[index];
+  if (!text) return;
 
-    document.getElementById("verse-text").textContent = `“${verse.text}”`;
-    document.getElementById("verse-reference").textContent = verse.reference;
-    document.getElementById("verse-reflection").textContent = verse.reflection;
+  let current = Number(localStorage.getItem('graceverse_verse')) || 0;
 
-    const saved = JSON.parse(localStorage.getItem("gv-saved-verses") || "[]");
+  function render() {
+    const verse = verses[current];
 
-    document.getElementById("save-verse").textContent =
-      saved.includes(verse.reference) ? "♥ Guardada" : "♡ Guardar";
+    text.textContent = `“${verse.text}”`;
+    reference.textContent = verse.reference;
+    reflection.textContent = verse.reflection;
+
+    if (status) status.textContent = '';
   }
 
-  function next(){
-    index = (index + 1) % verses.length;
-    localStorage.setItem("gv-verse-index",String(index));
+  next?.addEventListener('click', () => {
+    current = (current + 1) % verses.length;
+    localStorage.setItem('graceverse_verse', current);
     render();
-  }
+  });
 
-  function save(){
-    const verse = verses[index];
-    let saved = JSON.parse(localStorage.getItem("gv-saved-verses") || "[]");
+  share?.addEventListener('click', () => {
+    const verse = verses[current];
 
-    if(saved.includes(verse.reference)){
-      saved = saved.filter(x => x !== verse.reference);
-    }else{
-      saved.push(verse.reference);
-    }
-
-    localStorage.setItem("gv-saved-verses",JSON.stringify(saved));
-    render();
-  }
-
-  document.addEventListener("DOMContentLoaded",() => {
-    render();
-
-    document.getElementById("new-verse")?.addEventListener("click",next);
-    document.getElementById("save-verse")?.addEventListener("click",save);
-
-    document.getElementById("share-verse")?.addEventListener("click",() => {
-      const verse = verses[index];
-
-      window.GV?.share(
-        "GraceVerse — Palabra",
-        `“${verse.text}” — ${verse.reference}\n\n${verse.reflection}`
-      );
+    graceShare({
+      title: `GraceVerse — ${verse.reference}`,
+      text: `“${verse.text}”\n\n${verse.reference}\n\n${verse.reflection}`
     });
   });
 
+  save?.addEventListener('click', () => {
+    const verse = verses[current];
+
+    localStorage.setItem('graceverse_saved_verse', JSON.stringify(verse));
+
+    if (status) {
+      status.textContent = '♡ Palabra guardada en este dispositivo.';
+    }
+  });
+
+  render();
 })();

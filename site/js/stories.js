@@ -1,105 +1,94 @@
 (() => {
-  "use strict";
+  const form = document.querySelector('#story-form');
+  const list = document.querySelector('#stories-list');
+  const status = document.querySelector('#story-status');
 
-  const KEY = "gv-stories-v1";
+  if (!form || !list) return;
+
+  const KEY = 'graceverse_stories_v1';
   const TTL = 12 * 60 * 60 * 1000;
 
-  function load(){
-    try{
-      return JSON.parse(localStorage.getItem(KEY) || "[]");
-    }catch{
+  function load() {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || '[]');
+    } catch {
       return [];
     }
   }
 
-  function clean(stories){
-    const now = Date.now();
-    const valid = stories.filter(s => now - s.createdAt < TTL);
-
-    localStorage.setItem(KEY,JSON.stringify(valid));
-
-    return valid;
+  function save(data) {
+    localStorage.setItem(KEY, JSON.stringify(data));
   }
 
-  function render(){
+  function cleanExpired() {
+    const now = Date.now();
+    const stories = load().filter(item => now - item.createdAt < TTL);
 
-    const list = document.getElementById("stories-list");
-    if(!list) return;
+    save(stories);
+    return stories;
+  }
 
-    const stories = clean(load());
+  function render() {
+    const stories = cleanExpired();
 
-    list.innerHTML = "";
+    list.innerHTML = '';
 
-    if(!stories.length){
-
-      list.innerHTML =
-        '<div class="empty">Todavía no hay historias publicadas en este dispositivo. Sé la primera persona en compartir esperanza.</div>';
-
+    if (!stories.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Todavía no hay historias publicadas en este dispositivo.';
+      list.appendChild(empty);
       return;
     }
 
-    stories
-      .sort((a,b) => b.createdAt - a.createdAt)
-      .forEach(story => {
+    stories.reverse().forEach(story => {
+      const article = document.createElement('article');
+      article.className = 'story-card';
 
-        const article = document.createElement("article");
-        article.className = "story";
+      const name = document.createElement('strong');
+      name.textContent = story.name;
 
-        const header = document.createElement("header");
+      const text = document.createElement('p');
+      text.textContent = story.text;
 
-        const name = document.createElement("strong");
-        name.textContent = story.name;
+      const time = document.createElement('small');
+      const remaining = Math.max(0, TTL - (Date.now() - story.createdAt));
+      const hours = Math.ceil(remaining / 3600000);
 
-        const time = document.createElement("time");
-        time.textContent =
-          ` · ${new Date(story.createdAt).toLocaleString("es-AR")}`;
+      time.textContent = `Disponible aproximadamente ${hours} h más.`;
 
-        header.append(name,time);
-
-        const text = document.createElement("p");
-        text.textContent = story.text;
-
-        article.append(header,text);
-        list.appendChild(article);
-      });
+      article.append(name, text, time);
+      list.appendChild(article);
+    });
   }
 
-  document.addEventListener("DOMContentLoaded",() => {
+  form.addEventListener('submit', event => {
+    event.preventDefault();
 
-    render();
+    const name = document.querySelector('#story-name').value.trim();
+    const text = document.querySelector('#story-text').value.trim();
 
-    document.getElementById("story-form")?.addEventListener("submit",event => {
+    if (!name || !text) return;
 
-      event.preventDefault();
+    const stories = cleanExpired();
 
-      const name =
-        document.getElementById("story-name").value.trim();
-
-      const text =
-        document.getElementById("story-text").value.trim();
-
-      if(!name || !text) return;
-
-      const stories = clean(load());
-
-      stories.push({
-        id: crypto.randomUUID?.() || String(Date.now()),
-        name,
-        text,
-        createdAt:Date.now()
-      });
-
-      localStorage.setItem(KEY,JSON.stringify(stories));
-
-      document.getElementById("story-form").reset();
-
-      document.getElementById("story-status").textContent =
-        "❤️ Tu historia fue publicada durante 12 horas en este dispositivo.";
-
-      render();
+    stories.push({
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      name,
+      text,
+      createdAt: Date.now()
     });
 
-    setInterval(render,60 * 1000);
+    save(stories);
+
+    form.reset();
+
+    status.textContent = 'Tu historia quedó publicada durante 12 horas en este dispositivo.';
+
+    render();
   });
 
+  render();
+
+  setInterval(render, 60000);
 })();

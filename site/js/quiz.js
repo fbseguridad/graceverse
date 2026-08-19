@@ -1,150 +1,108 @@
 (() => {
-  "use strict";
-
   const questions = [
     {
-      q:"¿Quién construyó el arca?",
-      options:["Moisés","Noé","Abraham"],
-      correct:1,
-      explanation:"Noé construyó el arca siguiendo las instrucciones de Dios. Génesis 6–9."
+      q: '¿Quién construyó el arca?',
+      a: ['Moisés', 'Noé', 'David'],
+      correct: 1
     },
     {
-      q:"¿En qué ciudad nació Jesús?",
-      options:["Belén","Jerusalén","Nazaret"],
-      correct:0,
-      explanation:"Jesús nació en Belén de Judea. Mateo 2:1."
+      q: '¿Cuántos discípulos principales tuvo Jesús?',
+      a: ['10', '12', '20'],
+      correct: 1
     },
     {
-      q:"¿Quién fue lanzado al foso de los leones?",
-      options:["Daniel","David","Pedro"],
-      correct:0,
-      explanation:"Daniel fue arrojado al foso de los leones y Dios lo protegió. Daniel 6."
+      q: '¿Quién derrotó a Goliat?',
+      a: ['David', 'Salomón', 'Pedro'],
+      correct: 0
     },
     {
-      q:"¿Cuántos discípulos escogió Jesús?",
-      options:["7","10","12"],
-      correct:2,
-      explanation:"Jesús escogió a doce apóstoles. Mateo 10:1–4."
+      q: '¿Dónde nació Jesús?',
+      a: ['Jerusalén', 'Belén', 'Nazaret'],
+      correct: 1
     },
     {
-      q:"¿Quién derrotó a Goliat?",
-      options:["David","Salomón","Josué"],
-      correct:0,
-      explanation:"David derrotó a Goliat confiando en Dios. 1 Samuel 17."
+      q: '¿Quién recibió los Diez Mandamientos?',
+      a: ['Moisés', 'Pablo', 'Juan'],
+      correct: 0
     },
     {
-      q:"¿Cuál es el primer libro de la Biblia?",
-      options:["Éxodo","Génesis","Mateo"],
-      correct:1,
-      explanation:"Génesis es el primer libro de la Biblia."
+      q: '¿Cuál es el primer libro de la Biblia?',
+      a: ['Éxodo', 'Génesis', 'Mateo'],
+      correct: 1
     },
     {
-      q:"¿Quién recibió los Diez Mandamientos?",
-      options:["Moisés","Isaías","Samuel"],
-      correct:0,
-      explanation:"Dios entregó los Diez Mandamientos a Moisés. Éxodo 20."
+      q: '¿Quién fue arrojado al foso de los leones?',
+      a: ['Daniel', 'Isaac', 'Josué'],
+      correct: 0
     },
     {
-      q:"¿Quién bautizó a Jesús?",
-      options:["Pedro","Juan el Bautista","Pablo"],
-      correct:1,
-      explanation:"Juan el Bautista bautizó a Jesús en el río Jordán. Mateo 3."
+      q: '¿Qué discípulo negó a Jesús tres veces?',
+      a: ['Pedro', 'Tomás', 'Andrés'],
+      correct: 0
     }
   ];
 
+  const question = document.querySelector('#quiz-question');
+  const options = document.querySelector('#quiz-options');
+  const progress = document.querySelector('#quiz-progress');
+  const scoreEl = document.querySelector('#quiz-score');
+  const result = document.querySelector('#quiz-result');
+  const resultTitle = document.querySelector('#quiz-result-title');
+  const resultText = document.querySelector('#quiz-result-text');
+  const next = document.querySelector('#quiz-next');
+
+  if (!question) return;
+
   let index = 0;
   let score = 0;
-  let answered = false;
 
-  function render(){
+  function render() {
+    const item = questions[index];
 
-    const q = questions[index];
+    question.textContent = item.q;
+    progress.textContent = `Pregunta ${index + 1} de ${questions.length}`;
+    scoreEl.textContent = `${score} puntos`;
+    result.hidden = true;
+    options.innerHTML = '';
 
-    document.getElementById("quiz-progress").textContent =
-      `Pregunta ${index + 1} de ${questions.length}`;
+    item.a.forEach((answer, i) => {
+      const button = document.createElement('button');
 
-    document.getElementById("quiz-score").textContent =
-      `${score} puntos`;
+      button.className = 'quiz-option';
+      button.textContent = `${String.fromCharCode(65 + i)}. ${answer}`;
 
-    document.getElementById("quiz-question").textContent = q.q;
+      button.addEventListener('click', () => {
+        if (i === item.correct) {
+          score++;
+          resultTitle.textContent = '¡Correcto! 🙌';
+          resultText.textContent = 'Muy bien. Seguimos aprendiendo.';
+        } else {
+          resultTitle.textContent = 'Casi. ❤️';
+          resultText.textContent = `La respuesta correcta era: ${item.a[item.correct]}.`;
+        }
 
-    const options = document.getElementById("quiz-options");
-    options.innerHTML = "";
+        options.querySelectorAll('button').forEach(b => {
+          b.disabled = true;
+        });
 
-    q.options.forEach((option,i) => {
-      const button = document.createElement("button");
-
-      button.className = "quiz-option";
-      button.type = "button";
-      button.textContent = `${String.fromCharCode(65+i)}) ${option}`;
-
-      button.addEventListener("click",() => answer(i));
+        scoreEl.textContent = `${score} puntos`;
+        result.hidden = false;
+      });
 
       options.appendChild(button);
     });
-
-    document.getElementById("quiz-result").hidden = true;
-    answered = false;
   }
 
-  function answer(choice){
+  next?.addEventListener('click', () => {
+    index++;
 
-    if(answered) return;
-
-    answered = true;
-
-    const q = questions[index];
-    const correct = choice === q.correct;
-
-    if(correct) score += 100;
-
-    document.querySelectorAll(".quiz-option")
-      .forEach(button => button.disabled = true);
-
-    document.getElementById("quiz-result-title").textContent =
-      correct ? "✅ ¡Correcto!" : "❌ Esta vez no.";
-
-    document.getElementById("quiz-result-text").textContent =
-      correct
-        ? `${q.explanation} Ganaste 100 puntos.`
-        : `${q.explanation} La respuesta correcta era ${q.options[q.correct]}.`;
-
-    document.getElementById("quiz-result").hidden = false;
-
-    document.getElementById("quiz-score").textContent =
-      `${score} puntos`;
-
-    if(index === questions.length - 1){
-      document.getElementById("quiz-next").textContent = "🏆 Ver resultado";
-    }
-  }
-
-  function next(){
-
-    if(index >= questions.length - 1){
-
-      document.getElementById("quiz-result-title").textContent =
-        "🏆 Desafío terminado";
-
-      document.getElementById("quiz-result-text").textContent =
-        `Terminaste las ${questions.length} preguntas con ${score} puntos.`;
-
-      document.getElementById("quiz-next").textContent =
-        "Jugar nuevamente";
-
+    if (index >= questions.length) {
       index = 0;
       score = 0;
-
-      return;
     }
 
-    index++;
     render();
-  }
-
-  document.addEventListener("DOMContentLoaded",() => {
-    render();
-    document.getElementById("quiz-next")?.addEventListener("click",next);
   });
 
+  render();
 })();

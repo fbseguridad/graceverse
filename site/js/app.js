@@ -1,83 +1,93 @@
 (() => {
-  "use strict";
+  const $ = (s) => document.querySelector(s);
 
-  const $ = id => document.getElementById(id);
+  const menu = $('#menu-button');
+  const nav = $('#main-nav');
 
-  function setupMenu(){
-    const button = $("menu-button");
-    const nav = $("main-nav");
-
-    if(!button || !nav) return;
-
-    button.addEventListener("click", () => {
-      nav.classList.toggle("open");
+  if (menu && nav) {
+    menu.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      menu.setAttribute('aria-expanded', nav.classList.contains('open'));
     });
   }
 
-  async function share(title,text,url=location.href){
-    const data = {title,text,url};
-
-    try{
-      if(navigator.share){
-        await navigator.share(data);
+  // Compartir contenido
+  window.graceShare = async ({ title, text, url = location.href }) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text, url });
         return true;
       }
 
-      await navigator.clipboard.writeText(`${text}\n${url}`);
-      alert("Enlace copiado.");
+      await navigator.clipboard.writeText(`${text}\n\n${url}`);
+      alert('Enlace copiado. Ahora podés compartirlo.');
       return true;
-    }catch{
+    } catch {
       return false;
     }
-  }
+  };
 
-  function setupShareGraceVerse(){
-    $("share-graceverse")?.addEventListener("click",() => {
-      share(
-        "GraceVerse",
-        "Una palabra. Una oración. Una esperanza.",
-        location.origin
-      );
+  // Instalar GraceVerse como aplicación
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+
+    document.querySelectorAll('[data-install-app]').forEach(btn => {
+      btn.hidden = false;
+
+      btn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      }, { once: true });
+    });
+  });
+
+  // Registro del Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('GraceVerse SW activo'))
+        .catch(err => console.warn('SW:', err));
     });
   }
 
-  function setupPWA(){
-    if("serviceWorker" in navigator){
-      window.addEventListener("load",() => {
-        navigator.serviceWorker.register("/sw.js").catch(() => {});
-      });
-    }
-  }
+  // Aviso discreto
+  setTimeout(() => {
+    const popup = document.querySelector('[data-grace-popup]');
+    if (!popup) return;
 
-  function setupNotifications(){
-    const key = "gv-notification-asked";
+    if (!sessionStorage.getItem('grace_popup_seen')) {
+      popup.hidden = false;
 
-    if(
-      !("Notification" in window) ||
-      localStorage.getItem(key)
-    ) return;
-
-    setTimeout(() => {
-      const allow = confirm(
-        "GraceVerse puede avisarte cuando haya una nueva palabra o contenido. ¿Querés activar las notificaciones?"
-      );
-
-      localStorage.setItem(key,"1");
-
-      if(allow){
-        Notification.requestPermission().catch(() => {});
+      const close = popup.querySelector('[data-close-popup]');
+      if (close) {
+        close.addEventListener('click', () => {
+          popup.hidden = true;
+          sessionStorage.setItem('grace_popup_seen', '1');
+        });
       }
-    },8000);
+    }
+  }, 12000);
+
+  // Compartir GraceVerse
+  const shareGrace = $('#share-graceverse');
+
+  if (shareGrace) {
+    shareGrace.addEventListener('click', () => {
+      graceShare({
+        title: 'GraceVerse — Ministerio Internacional Jesús Rey',
+        text: 'Una palabra. Una oración. Una esperanza.'
+      });
+    });
   }
 
-  window.GV = {
-    $,
-    share
-  };
-
-  setupMenu();
-  setupShareGraceVerse();
-  setupPWA();
-  setupNotifications();
-
+  // Botón de instalación
+  document.querySelectorAll('[data-install-app]').forEach(btn => {
+    btn.hidden = true;
+  });
 })();

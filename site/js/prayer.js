@@ -1,26 +1,23 @@
 (() => {
-  "use strict";
+  const prayer = document.querySelector('#prayer-text');
+  const share = document.querySelector('#share-prayer');
+  const copy = document.querySelector('#copy-prayer');
 
-  document.addEventListener("DOMContentLoaded",() => {
+  if (!prayer) return;
 
-    const prayer = document.getElementById("prayer-text")?.textContent.trim();
-
-    document.getElementById("share-prayer")?.addEventListener("click",() => {
-      window.GV?.share(
-        "GraceVerse — Oración",
-        prayer
-      );
+  share?.addEventListener('click', () => {
+    graceShare({
+      title: 'Una oración — GraceVerse',
+      text: prayer.innerText.trim()
     });
-
-    document.getElementById("copy-prayer")?.addEventListener("click",async() => {
-      try{
-        await navigator.clipboard.writeText(prayer);
-        document.getElementById("copy-prayer").textContent = "✓ Copiada";
-      }catch{
-        alert("No se pudo copiar automáticamente.");
-      }
-    });
-
   });
 
+  copy?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(prayer.innerText.trim());
+      alert('Oración copiada.');
+    } catch {
+      alert('No se pudo copiar automáticamente.');
+    }
+  });
 })();

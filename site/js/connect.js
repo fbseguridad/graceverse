@@ -1,61 +1,60 @@
 (() => {
-  "use strict";
+  const formBox = document.querySelector('#connect-form');
+  const title = document.querySelector('#connect-title');
+  const form = document.querySelector('#connect-form-element');
+  const status = document.querySelector('#connect-status');
 
-  let mode = "";
+  const prayerButton = document.querySelector('#need-prayer');
+  const helpButton = document.querySelector('#offer-help');
 
-  function openForm(title){
+  if (!formBox || !form) return;
 
-    mode = title;
+  let mode = '';
 
-    document.getElementById("connect-title").textContent = title;
-    document.getElementById("connect-form").hidden = false;
-    document.getElementById("connect-form").scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
+  function openForm(type) {
+    mode = type;
+
+    title.textContent =
+      type === 'prayer'
+        ? 'Quiero pedir oración'
+        : 'Quiero ofrecer ayuda';
+
+    formBox.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  document.addEventListener("DOMContentLoaded",() => {
+  prayerButton?.addEventListener('click', () => openForm('prayer'));
+  helpButton?.addEventListener('click', () => openForm('help'));
 
-    document.getElementById("need-prayer")
-      ?.addEventListener("click",() => {
-        openForm("🙏 Quiero pedir oración");
-      });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
 
-    document.getElementById("offer-help")
-      ?.addEventListener("click",() => {
-        openForm("🤝 Quiero ayudar");
-      });
+    const name = document.querySelector('#connect-name').value.trim();
+    const message = document.querySelector('#connect-message').value.trim();
 
-    document.getElementById("connect-form-element")
-      ?.addEventListener("submit",event => {
+    if (!name || !message) return;
 
-        event.preventDefault();
+    const data = {
+      type: mode,
+      name,
+      message,
+      createdAt: Date.now()
+    };
 
-        const name =
-          document.getElementById("connect-name").value.trim();
+    const requests = JSON.parse(
+      localStorage.getItem('graceverse_connect_v1') || '[]'
+    );
 
-        const message =
-          document.getElementById("connect-message").value.trim();
+    requests.push(data);
 
-        const payload = {
-          mode,
-          name,
-          message,
-          createdAt:new Date().toISOString()
-        };
+    localStorage.setItem(
+      'graceverse_connect_v1',
+      JSON.stringify(requests)
+    );
 
-        localStorage.setItem(
-          "gv-connect-last",
-          JSON.stringify(payload)
-        );
+    form.reset();
 
-        document.getElementById("connect-status").textContent =
-          "Gracias. Tu solicitud quedó guardada en este dispositivo. En la V1 pública Connect funciona como prototipo local; la conexión entre personas requiere un backend seguro que agregaremos en la siguiente etapa.";
-
-        event.target.reset();
-      });
-
+    status.textContent =
+      'Recibimos tu mensaje en este dispositivo. La conexión pública entre personas se habilitará en la próxima etapa.';
   });
-
 })();
