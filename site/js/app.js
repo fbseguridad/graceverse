@@ -1,93 +1,68 @@
-(() => {
-  const $ = (s) => document.querySelector(s);
+(function(){
 
-  const menu = $('#menu-button');
-  const nav = $('#main-nav');
+const menu=document.getElementById("menu-button");
+const nav=document.getElementById("main-nav");
 
-  if (menu && nav) {
-    menu.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      menu.setAttribute('aria-expanded', nav.classList.contains('open'));
-    });
-  }
+if(menu && nav){
 
-  // Compartir contenido
-  window.graceShare = async ({ title, text, url = location.href }) => {
-    try {
-      if (navigator.share) {
-        await navigator.share({ title, text, url });
-        return true;
-      }
+menu.addEventListener("click",function(){
 
-      await navigator.clipboard.writeText(`${text}\n\n${url}`);
-      alert('Enlace copiado. Ahora podés compartirlo.');
-      return true;
-    } catch {
-      return false;
-    }
-  };
+nav.classList.toggle("open");
 
-  // Instalar GraceVerse como aplicación
-  let deferredPrompt = null;
+});
 
-  window.addEventListener('beforeinstallprompt', (event) => {
-    event.preventDefault();
-    deferredPrompt = event;
+}
 
-    document.querySelectorAll('[data-install-app]').forEach(btn => {
-      btn.hidden = false;
 
-      btn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
+const pop=document.getElementById("smart-pop");
+const close=document.getElementById("pop-close");
 
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      }, { once: true });
-    });
-  });
+if(
+pop &&
+!sessionStorage.getItem("graceverse-popup")
+){
 
-  // Registro del Service Worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('GraceVerse SW activo'))
-        .catch(err => console.warn('SW:', err));
-    });
-  }
+setTimeout(function(){
 
-  // Aviso discreto
-  setTimeout(() => {
-    const popup = document.querySelector('[data-grace-popup]');
-    if (!popup) return;
+pop.hidden=false;
 
-    if (!sessionStorage.getItem('grace_popup_seen')) {
-      popup.hidden = false;
+sessionStorage.setItem(
+"graceverse-popup",
+"1"
+);
 
-      const close = popup.querySelector('[data-close-popup]');
-      if (close) {
-        close.addEventListener('click', () => {
-          popup.hidden = true;
-          sessionStorage.setItem('grace_popup_seen', '1');
-        });
-      }
-    }
-  }, 12000);
+},18000);
 
-  // Compartir GraceVerse
-  const shareGrace = $('#share-graceverse');
+}
 
-  if (shareGrace) {
-    shareGrace.addEventListener('click', () => {
-      graceShare({
-        title: 'GraceVerse — Ministerio Internacional Jesús Rey',
-        text: 'Una palabra. Una oración. Una esperanza.'
-      });
-    });
-  }
 
-  // Botón de instalación
-  document.querySelectorAll('[data-install-app]').forEach(btn => {
-    btn.hidden = true;
-  });
+if(close){
+
+close.addEventListener(
+"click",
+function(){
+pop.hidden=true;
+}
+);
+
+}
+
+
+if(
+"serviceWorker" in navigator
+){
+
+window.addEventListener(
+"load",
+function(){
+
+navigator.serviceWorker
+.register("/sw.js")
+.catch(function(){});
+
+}
+);
+
+}
+
 })();

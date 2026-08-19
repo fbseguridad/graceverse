@@ -1,91 +1,368 @@
 <!doctype html>
 <html lang="es">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
-<meta name="description" content="GraceVerse Connect — Ministerio Internacional Jesús Rey.">
-<link rel="manifest" href="/manifest.json">
-<link rel="stylesheet" href="/css/styles.css">
-<title>Connect — GraceVerse</title>
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
+
+<meta
+name="theme-color"
+content="#071426">
+
+<meta
+name="description"
+content="GraceVerse Connect — comunidad cristiana internacional.">
+
+<link
+rel="manifest"
+href="/manifest.json">
+
+<link
+rel="stylesheet"
+href="/css/styles.css">
+
+<title>
+Connect — GraceVerse
+</title>
+
 </head>
+
 <body>
 
 <header class="header">
-<a class="logo" href="/"><span>✝</span><div><strong>GRACEVERSE</strong><small>Ministerio Internacional Jesús Rey</small></div></a>
-<button class="menu-button" id="menu-button">☰</button>
+
+<a class="logo" href="/">
+
+<span class="logo-mark">
+✝
+</span>
+
+<div>
+
+<strong>
+GRACEVERSE
+</strong>
+
+<small>
+Ministerio Internacional Jesús Rey
+</small>
+
+</div>
+
+</a>
+
+<button
+class="menu-button"
+id="menu-button">
+☰
+</button>
+
 <nav id="main-nav">
-<a href="/">Inicio</a><a href="/palabra.html">📖 Palabra</a><a href="/oracion.html">🙏 Oración</a><a href="/juegos.html">🎮 Juegos</a><a href="/historias.html">❤️ Historias</a><a href="/connect.html">🤝 Connect</a><a href="/apoyar.html">🤍 Apoyar</a>
+
+<a href="/">
+Inicio
+</a>
+
+<a href="/palabra.html">
+📖 Palabra
+</a>
+
+<a href="/oracion.html">
+🙏 Oración
+</a>
+
+<a href="/juegos.html">
+🎮 Juegos
+</a>
+
+<a href="/historias.html">
+❤️ Historias
+</a>
+
+<a href="/connect.html">
+🌎 Connect
+</a>
+
+<a href="/apoyar.html">
+🤍 Apoyar
+</a>
+
 </nav>
+
 </header>
+
 
 <main class="container page">
 
 <section class="page-header">
-<span class="eyebrow">GRACEVERSE CONNECT</span>
-<h1>Una persona para otra persona.</h1>
+
+<span class="eyebrow">
+GRACEVERSE CONNECT · WORLD
+</span>
+
+<h1>
+¿Querés hablar con alguien
+o conocer otra congregación?
+</h1>
+
 <p>
-Un espacio para pedir oración, ofrecer acompañamiento y encontrar
-personas dispuestas a ayudar.
+Un espacio pensado para conectar personas
+de diferentes países y comunidades cristianas.
 </p>
-</section>
-
-<section class="connect-grid">
-
-<article class="connect-card">
-<span>🙏</span>
-<h2>Necesito oración</h2>
-<p>Podés dejar tu pedido para que otras personas puedan orar por vos.</p>
-<button class="button primary" id="need-prayer">Quiero pedir oración</button>
-</article>
-
-<article class="connect-card">
-<span>🤝</span>
-<h2>Quiero ayudar</h2>
-<p>Si tenés disposición para escuchar y acompañar, podés ofrecerte.</p>
-<button class="button secondary" id="offer-help">Quiero ayudar</button>
-</article>
 
 </section>
 
-<div id="connect-form" class="connect-form" hidden>
-<h2 id="connect-title"></h2>
 
-<form id="connect-form-element">
-<label>
-Nombre
-<input id="connect-name" maxlength="60" required>
-</label>
+<section class="connect-hero">
 
-<label>
-Mensaje
-<textarea id="connect-message" maxlength="500" rows="5" required></textarea>
-</label>
-
-<button class="button primary">Enviar</button>
-</form>
-
-<p id="connect-status" class="status"></p>
+<div class="connect-orb">
+🌎
 </div>
 
-<section class="notice">
-<strong>Importante</strong>
+<div>
+
+<span class="eyebrow light">
+SIN FRONTERAS
+</span>
+
+<h2>
+Una persona para otra persona.
+</h2>
+
 <p>
-Connect no reemplaza atención médica, psicológica, legal ni servicios
-de emergencia. Nunca compartas contraseñas, datos bancarios ni información
-privada con desconocidos.
+La visión de Connect es acercar creyentes,
+congregaciones y personas que quieran conversar
+desde distintos lugares del mundo.
 </p>
+
+</div>
+
+</section>
+
+
+<div class="connect-grid">
+
+
+<article class="connect-card big">
+
+<span>
+💬
+</span>
+
+<h2>
+Quiero hablar con alguien
+</h2>
+
+<p>
+Para conversar, escuchar y compartir experiencias.
+</p>
+
+<button
+class="button primary"
+data-connect="hablar">
+Buscar conexión
+</button>
+
+</article>
+
+
+<article class="connect-card big">
+
+<span>
+⛪
+</span>
+
+<h2>
+Quiero conocer otra congregación
+</h2>
+
+<p>
+Conocé comunidades y personas de otros lugares.
+</p>
+
+<button
+class="button secondary"
+data-connect="congregacion">
+Buscar congregación
+</button>
+
+</article>
+
+
+<article class="connect-card big">
+
+<span>
+🙏
+</span>
+
+<h2>
+Necesito oración
+</h2>
+
+<p>
+Pedí oración y permití que otros puedan acompañarte.
+</p>
+
+<button
+class="button secondary"
+data-connect="oracion">
+Pedir oración
+</button>
+
+</article>
+
+</div>
+
+
+<section
+class="connect-form"
+id="connect-form"
+hidden>
+
+<h2 id="connect-title">
+Prepará tu conexión
+</h2>
+
+
+<form
+id="connect-form-element">
+
+
+<label>
+
+Cómo querés aparecer
+
+<input
+id="connect-name"
+maxlength="60"
+placeholder="Ej.: Juan"
+required>
+
+</label>
+
+
+<label>
+
+País
+
+<input
+id="connect-country"
+maxlength="60"
+placeholder="Ej.: Argentina"
+required>
+
+</label>
+
+
+<label>
+
+Mensaje inicial
+
+<textarea
+id="connect-message"
+maxlength="500"
+rows="5"
+placeholder="Hola, me gustaría conocer personas de..."
+required></textarea>
+
+</label>
+
+
+<label class="checkbox">
+
+<input
+id="connect-agree"
+type="checkbox"
+required>
+
+<span>
+
+Acepto no compartir contraseñas,
+datos bancarios, documentos,
+dirección ni información privada
+con desconocidos.
+
+</span>
+
+</label>
+
+
+<button
+class="button primary">
+Continuar
+</button>
+
+</form>
+
+
+<p
+id="connect-status"
+class="status">
+</p>
+
+</section>
+
+
+<section class="notice">
+
+<strong>
+Seguridad primero
+</strong>
+
+<p>
+No compartas dinero, contraseñas,
+documentos ni datos privados con personas
+que conozcas online.
+Si alguien te pide algo extraño,
+cortá la conversación y reportalo.
+</p>
+
+</section>
+
+
+<section class="ad-box">
+
+<strong>
+PUBLICIDAD · SMARTLINK
+</strong>
+
+<p>
+La publicidad puede ayudar a financiar
+el funcionamiento gratuito de GraceVerse.
+</p>
+
+<div class="ad-placeholder">
+ESPACIO PUBLICITARIO
+</div>
+
 </section>
 
 </main>
 
+
 <footer>
-<strong>✝ GRACEVERSE</strong>
-<p>Ministerio Internacional Jesús Rey</p>
-<a href="/apoyar.html">🤍 Apoyar</a>
+
+<strong>
+✝ GRACEVERSE
+</strong>
+
+<p>
+Ministerio Internacional Jesús Rey
+</p>
+
+<a href="/apoyar.html">
+🤍 Apoyar
+</a>
+
 </footer>
+
 
 <script src="/js/app.js"></script>
 <script src="/js/connect.js"></script>
+
 </body>
 </html>

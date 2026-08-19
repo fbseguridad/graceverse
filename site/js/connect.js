@@ -1,60 +1,93 @@
-(() => {
-  const formBox = document.querySelector('#connect-form');
-  const title = document.querySelector('#connect-title');
-  const form = document.querySelector('#connect-form-element');
-  const status = document.querySelector('#connect-status');
+(function(){
 
-  const prayerButton = document.querySelector('#need-prayer');
-  const helpButton = document.querySelector('#offer-help');
+const form=document.getElementById("connect-form");
 
-  if (!formBox || !form) return;
+const title=document.getElementById(
+"connect-title"
+);
 
-  let mode = '';
+const status=document.getElementById(
+"connect-status"
+);
 
-  function openForm(type) {
-    mode = type;
 
-    title.textContent =
-      type === 'prayer'
-        ? 'Quiero pedir oración'
-        : 'Quiero ofrecer ayuda';
+document
+.querySelectorAll("[data-connect]")
+.forEach(function(button){
 
-    formBox.hidden = false;
-    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+button.addEventListener(
+"click",
+function(){
 
-  prayerButton?.addEventListener('click', () => openForm('prayer'));
-  helpButton?.addEventListener('click', () => openForm('help'));
+const type=button.dataset.connect;
 
-  form.addEventListener('submit', event => {
-    event.preventDefault();
+if(type==="hablar"){
 
-    const name = document.querySelector('#connect-name').value.trim();
-    const message = document.querySelector('#connect-message').value.trim();
+title.textContent=
+"Quiero hablar con alguien";
 
-    if (!name || !message) return;
+}
 
-    const data = {
-      type: mode,
-      name,
-      message,
-      createdAt: Date.now()
-    };
+else if(type==="congregacion"){
 
-    const requests = JSON.parse(
-      localStorage.getItem('graceverse_connect_v1') || '[]'
-    );
+title.textContent=
+"Quiero conocer otra congregación";
 
-    requests.push(data);
+}
 
-    localStorage.setItem(
-      'graceverse_connect_v1',
-      JSON.stringify(requests)
-    );
+else{
 
-    form.reset();
+title.textContent=
+"Necesito oración";
 
-    status.textContent =
-      'Recibimos tu mensaje en este dispositivo. La conexión pública entre personas se habilitará en la próxima etapa.';
-  });
+}
+
+form.hidden=false;
+
+form.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+});
+
+});
+
+
+const connectForm=
+document.getElementById(
+"connect-form-element"
+);
+
+
+if(connectForm){
+
+connectForm.addEventListener(
+"submit",
+function(event){
+
+event.preventDefault();
+
+const name=
+document
+.getElementById("connect-name")
+.value
+.trim();
+
+const country=
+document
+.getElementById("connect-country")
+.value
+.trim();
+
+status.textContent=
+`Gracias, ${name}. Tu presentación desde ${country} quedó preparada. La conexión mundial en tiempo real se incorporará junto con el sistema de moderación y seguridad de Connect.`;
+
+status.className=
+"status success";
+
+});
+
+}
+
 })();
