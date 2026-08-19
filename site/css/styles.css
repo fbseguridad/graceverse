@@ -699,3 +699,161 @@ padding:22px
 }
 
 }
+
+
+/* =========================================================
+   GRACEVERSE V1.4 — CAPA DE MONETIZACIÓN Y ENGAGEMENT
+   ========================================================= */
+
+.gv-monetizacion-extra {
+  margin: 50px auto;
+  max-width: 1100px;
+  padding: 28px 20px;
+}
+
+.gv-monetizacion-inner {
+  border-radius: 24px;
+  padding: 32px;
+  text-align: center;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(17,24,39,.98),
+      rgba(30,41,59,.96)
+    );
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+
+.gv-monetizacion-label {
+  display: block;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  opacity: .75;
+  margin-bottom: 12px;
+}
+
+.gv-monetizacion-inner h2 {
+  margin: 0 auto 12px;
+  max-width: 700px;
+}
+
+.gv-monetizacion-inner p {
+  max-width: 700px;
+  margin: 0 auto 22px;
+  line-height: 1.7;
+  opacity: .9;
+}
+
+.gv-monetizacion-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.gv-smartlink,
+.gv-apoyar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.gv-smartlink {
+  background: #ffffff;
+  color: #111827;
+}
+
+.gv-apoyar-link {
+  border: 1px solid rgba(255,255,255,.25);
+  color: #ffffff;
+}
+
+.gv-monetizacion-inner small {
+  display: block;
+  max-width: 650px;
+  margin: 20px auto 0;
+  opacity: .6;
+  line-height: 1.5;
+}
+
+.gv-share-pop {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  width: min(360px, calc(100vw - 36px));
+  padding: 20px;
+  border-radius: 20px;
+  background: #111827;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.14);
+  animation: gvShareIn .4s ease;
+}
+
+.gv-share-pop strong {
+  display: block;
+  padding-right: 25px;
+  font-size: 1.05rem;
+}
+
+.gv-share-pop p {
+  line-height: 1.55;
+  opacity: .86;
+}
+
+.gv-share-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.gv-share-button {
+  width: 100%;
+  min-height: 45px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@keyframes gvShareIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .gv-monetizacion-inner {
+    padding: 24px 18px;
+  }
+
+  .gv-monetizacion-actions {
+    flex-direction: column;
+  }
+
+  .gv-smartlink,
+  .gv-apoyar-link {
+    width: 100%;
+  }
+
+}
