@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="Historias y testimonios — GraceVerse.">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css">
+<title>Historias — GraceVerse</title>
+</head>
+<body>
+
+<header class="header">
+<a class="logo" href="/"><span>✝</span><div><strong>GRACEVERSE</strong><small>Ministerio Internacional Jesús Rey</small></div></a>
+<button class="menu-button" id="menu-button">☰</button>
+<nav id="main-nav">
+<a href="/">Inicio</a><a href="/palabra.html">📖 Palabra</a><a href="/oracion.html">🙏 Oración</a><a href="/juegos.html">🎮 Juegos</a><a href="/historias.html">❤️ Historias</a><a href="/connect.html">🤝 Connect</a><a href="/apoyar.html">🤍 Apoyar</a>
+</nav>
+</header>
+
+<main class="container page">
+
+<section class="page-header">
+<span class="eyebrow">GRACEVERSE HISTORIAS</span>
+<h1>Compartí lo que Dios hizo en tu vida.</h1>
+<p>
+Podés dejar una historia, reflexión o palabra de esperanza.
+Las publicaciones de esta V1 se mantienen durante 12 horas.
+</p>
+</section>
+
+<section class="story-form-card">
+<h2>Compartir una historia</h2>
+
+<form id="story-form">
+
+<label>
+Nombre
+<input id="story-name" maxlength="60" required placeholder="Tu nombre o cómo querés aparecer">
+</label>
+
+<label>
+Tu historia
+<textarea id="story-text" maxlength="1000" rows="7" required placeholder="Contanos algo que pueda darle esperanza a otra persona..."></textarea>
+</label>
+
+<label class="checkbox">
+<input id="story-agree" type="checkbox" required>
+<span>Confirmo que tengo derecho a publicar este contenido y acepto que aparezca públicamente durante 12 horas.</span>
+</label>
+
+<button class="button primary" type="submit">❤️ Publicar por 12 horas</button>
+
+</form>
+
+<p id="story-status" class="status"></p>
+</section>
+
+<section>
+<div class="section-title">
+<span class="eyebrow">HISTORIAS RECIENTES</span>
+<h2>Personas compartiendo esperanza.</h2>
+</div>
+
+<div id="stories-list" class="stories-list"></div>
+</section>
+
+<section class="ad-box">
+<strong>PUBLICIDAD</strong>
+<p>
+La publicidad nos ayuda a mantener esta plataforma disponible.
+Gracias a quienes permiten que podamos continuar sirviendo.
+</p>
+<div class="ad-placeholder">ESPACIO SMARTLINK</div>
+</section>
+
+</main>
+
+<footer>
+<strong>✝ GRACEVERSE</strong>
+<p>Ministerio Internacional Jesús Rey</p>
+<a href="/apoyar.html">🤍 Apoyar el ministerio</a>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/stories.js"></script>
+</body>
+</html>

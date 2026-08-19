@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="GraceVerse Connect — Ministerio Internacional Jesús Rey.">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css">
+<title>Connect — GraceVerse</title>
+</head>
+<body>
+
+<header class="header">
+<a class="logo" href="/"><span>✝</span><div><strong>GRACEVERSE</strong><small>Ministerio Internacional Jesús Rey</small></div></a>
+<button class="menu-button" id="menu-button">☰</button>
+<nav id="main-nav">
+<a href="/">Inicio</a><a href="/palabra.html">📖 Palabra</a><a href="/oracion.html">🙏 Oración</a><a href="/juegos.html">🎮 Juegos</a><a href="/historias.html">❤️ Historias</a><a href="/connect.html">🤝 Connect</a><a href="/apoyar.html">🤍 Apoyar</a>
+</nav>
+</header>
+
+<main class="container page">
+
+<section class="page-header">
+<span class="eyebrow">GRACEVERSE CONNECT</span>
+<h1>Una persona para otra persona.</h1>
+<p>
+Un espacio para pedir oración, ofrecer acompañamiento y encontrar
+personas dispuestas a ayudar.
+</p>
+</section>
+
+<section class="connect-grid">
+
+<article class="connect-card">
+<span>🙏</span>
+<h2>Necesito oración</h2>
+<p>Podés dejar tu pedido para que otras personas puedan orar por vos.</p>
+<button class="button primary" id="need-prayer">Quiero pedir oración</button>
+</article>
+
+<article class="connect-card">
+<span>🤝</span>
+<h2>Quiero ayudar</h2>
+<p>Si tenés disposición para escuchar y acompañar, podés ofrecerte.</p>
+<button class="button secondary" id="offer-help">Quiero ayudar</button>
+</article>
+
+</section>
+
+<div id="connect-form" class="connect-form" hidden>
+<h2 id="connect-title"></h2>
+
+<form id="connect-form-element">
+<label>
+Nombre
+<input id="connect-name" maxlength="60" required>
+</label>
+
+<label>
+Mensaje
+<textarea id="connect-message" maxlength="500" rows="5" required></textarea>
+</label>
+
+<button class="button primary">Enviar</button>
+</form>
+
+<p id="connect-status" class="status"></p>
+</div>
+
+<section class="notice">
+<strong>Importante</strong>
+<p>
+Connect no reemplaza atención médica, psicológica, legal ni servicios
+de emergencia. Nunca compartas contraseñas, datos bancarios ni información
+privada con desconocidos.
+</p>
+</section>
+
+</main>
+
+<footer>
+<strong>✝ GRACEVERSE</strong>
+<p>Ministerio Internacional Jesús Rey</p>
+<a href="/apoyar.html">🤍 Apoyar</a>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/connect.js"></script>
+</body>
+</html>
